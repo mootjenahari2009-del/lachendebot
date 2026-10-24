@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mijn cameratest</title>
+</head>
+<body>
+<h1>📷 Mijn cameratest</h1>
+<p>Test je eigen camera.</p>
+<button id="start">Camera toestaan</button>
+<button id="stop">Camera stoppen</button>
+<p id="status">Camera staat uit.</p>
+<video id="preview" autoplay playsinline muted
+
+         style="width:100%;max-width:480px"></video>
+<script>
+
+    let stream = null;
+
+    document.getElementById("start").onclick = async () => {
+
+      try {
+
+        stream = await navigator.mediaDevices.getUserMedia({
+
+          video: true,
+
+          audio: false
+
+        });
+
+        document.getElementById("preview").srcObject = stream;
+
+        document.getElementById("status").textContent =
+
+          "Camera is actief.";
+
+      } catch (error) {
+
+        document.getElementById("status").textContent =
+
+          "Camera geweigerd of niet beschikbaar.";
+
+      }
+
+    };
+
+    document.getElementById("stop").onclick = () => {
+
+      if (stream) {
+
+        stream.getTracks().forEach(track => track.stop());
+
+        stream = null;
+
+      }
+
+      document.getElementById("preview").srcObject = null;
+
+      document.getElementById("status").textContent =
+
+        "Camera staat uit.";
+
+    };
+</script>
+</body>
+</html>
+ 
